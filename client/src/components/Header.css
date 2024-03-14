@@ -1,0 +1,40 @@
+.container {
+    border-bottom: 1px solid #e0e0e0;
+    margin: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.title {
+    color: #FFFFFFE5;
+    margin-left: 10px;
+    margin-right: 30px;
+    font-size: 22px;
+    font-family: "roboto", sans-serif;
+    line-height: 32px;
+
+}
+
+.button {
+    margin-left: 10px;
+    margin-right: 10px;
+    color: rgb(189, 188, 188);
+    font-size: 16px;
+    line-height: 32px;
+    font-family: "roboto", sans-serif;
+}
+
+.button:hover {
+    cursor: pointer;
+    color: white;
+}
+
+.chosenButton {
+    margin-left: 10px;
+    margin-right: 10px;
+    color: #8DCAFE;
+    font-size: 16px;
+    line-height: 32px;
+    font-family: "roboto", sans-serif;
+    border-bottom: #8DCAFE 3px solid;
+}

@@ -1,0 +1,53 @@
+.message-container-1 {
+    flex-direction: column;
+}
+
+.message-container-2 {
+    position: fixed;
+    right: 20px;
+    flex-direction: column;
+}
+
+.message-container-3 {
+    position: fixed;
+    flex-direction: column-reverse;
+    bottom: 20px;
+}
+
+.message-container-4 {
+    position: fixed;
+    right: 20px;
+    flex-direction: column-reverse;
+    bottom: 20px;
+}
+
+.message {
+    background-color: #2C313E66;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    line-height: 16px;
+    height: 64px;
+    width: 360px;
+    border-radius: 10px;
+    margin-bottom: 3px;
+    padding: 10px;
+    margin-left: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.message:hover {
+    background-color: #2C313E;
+}
+
+.message-content {
+    flex: 7;
+}
+
+.remove-icon {
+    flex: 1;
+    text-align: center;
+    cursor: pointer;
+}
+

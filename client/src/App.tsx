@@ -1,6 +1,50 @@
+import React, { useState } from 'react';
+import Header from './components/Header';
+import Main from './pages/Main';
+import Setting from './pages/Setting';
+import './App.css';
+
 const App = () => {
+    const [isMain, setIsMain] = useState<boolean>(true);
+    const [messageCount, setMessageCount] = useState<number>(5);
+    const [messagePosition, setMessagePosition] = useState<number>(1);
+    const [messageDisappearTime, setMessageDisappearTime] = useState<number>(5000);
+
+    const handleTogglePage = () => {
+        setIsMain(!isMain);
+    }
+
+    const handleChangeMessageCount = (count: number) => {
+        setMessageCount(count);
+    }
+
+    const handleMessagePositionChange = (position: number) => {
+        setMessagePosition(position);
+    }
+
+    const handleMessageDisappearTimeChange = (position: number) => {
+        setMessageDisappearTime(position);
+    }
+
     return (
-        <h1>Write your code here!</h1>
+        <div>
+            <Header isMain={isMain} onToggle={handleTogglePage}/>
+            {isMain 
+                ? <Main 
+                    messageCount={messageCount}
+                    messagePosition={messagePosition}
+                    messageDisappearTime={messageDisappearTime}
+                    /> 
+                : <Setting 
+                    messageCount={messageCount} 
+                    onMessageCountChange={handleChangeMessageCount}
+                    messagePosition={messagePosition}
+                    onMessagePositionChange={handleMessagePositionChange}
+                    messageDisappearTime={messageDisappearTime}
+                    onMessageDisappearTimeChange={handleMessageDisappearTimeChange}
+                    />
+            }
+        </div> 
     );
 };
 

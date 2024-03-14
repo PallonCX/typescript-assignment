@@ -1,0 +1,99 @@
+import React, { useState, useEffect, useRef } from 'react';
+import "./Main.css";
+
+interface MainProps {
+    messageCount: number;
+    messagePosition: number;
+    messageDisappearTime: number;
+}
+
+interface Message {
+    id: string;
+    content: string;
+}
+
+const Main: React.FC<MainProps> = ({ messageCount, messagePosition, messageDisappearTime }) => {
+    const [messages, setMessages] = useState<Message[]>([]);
+    const [messageTimeouts, setMessageTimeouts] = useState<{ [key: string]: NodeJS.Timeout }>({});
+
+    useEffect(() => {
+        const eventSource = new EventSource('http://localhost:9000/events');
+
+        eventSource.onmessage = (event) => {
+            const msgJson = JSON.parse(event.data);
+            const msgContent = msgJson["msg"];
+            const msgId = msgJson["msg_id"];
+            setMessages(prev => [...prev, { id: msgId, content: msgContent }]);
+            const timeoutId = setTimeout(() => {
+                setMessages(prev => prev.filter(message => message.id !== msgId));
+                setMessageTimeouts(prev => {
+                    const updatedTimeouts = { ...prev };
+                    delete updatedTimeouts[msgId];
+                    return updatedTimeouts;
+                });
+            }, messageDisappearTime);
+            setMessageTimeouts(prev => ({ ...prev, [msgId]: timeoutId }));
+        };
+    }, [messageDisappearTime]);
+    
+    useEffect(() => {
+        if (messages.length > messageCount) {
+            setMessages(prev => prev.slice(-messageCount));
+        }
+        if (messages.length > 9) {
+            setMessages(prev => prev.slice(-9));
+        }
+    }, [messages, messageCount]);
+
+    const changeMessagePositionStyle = (position: number) => {
+        switch (position) {
+            case 1:
+                return "message-container-1";
+            case 2:
+                return "message-container-2";
+            case 3:
+                return "message-container-3";
+            case 4:
+                return "message-container-4";
+        }
+    }
+
+    const removeMessage = (messageId: string) => {
+        clearTimeout(messageTimeouts[messageId]);
+        setMessages(prev => prev.filter(message => message.id !== messageId));
+        setMessageTimeouts(prev => {
+            const updatedTimeouts = { ...prev };
+            delete updatedTimeouts[messageId];
+            return updatedTimeouts;
+        });
+    };
+
+    const handleMouseEnter = (messageId: string) => {
+        clearTimeout(messageTimeouts[messageId]);
+    };
+
+    const handleMouseLeave = (messageId: string) => {
+        const timeoutId = setTimeout(() => {
+            setMessages(prev => prev.filter(message => message.id !== messageId));
+            setMessageTimeouts(prev => {
+                const updatedTimeouts = { ...prev };
+                delete updatedTimeouts[messageId];
+                return updatedTimeouts;
+            });
+        }, messageDisappearTime);
+        setMessageTimeouts(prev => ({ ...prev, [messageId]: timeoutId }));
+    };
+
+    return (
+        <div className={changeMessagePositionStyle(messagePosition)}>
+            {messages.map(({id, content}) => (
+                <div key={id} className="message" onMouseEnter={() => handleMouseEnter(id)} onMouseLeave={() => handleMouseLeave(id)}>
+                    <span className="message-content">{content}</span>
+                    <span className="remove-icon" onClick={() => removeMessage(id)}>❌</span>
+                </div>
+            ))}
+        </div>
+    );
+};
+
+export default Main;
