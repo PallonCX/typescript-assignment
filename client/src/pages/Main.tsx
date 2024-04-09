@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import "./Main.css";
 
 interface MainProps {
+    eventSource: EventSource | null;
     messageCount: number;
     messagePosition: number;
     messageDisappearTime: number;
@@ -12,14 +13,14 @@ interface Message {
     content: string;
 }
 
-const Main: React.FC<MainProps> = ({ messageCount, messagePosition, messageDisappearTime }) => {
+const Main: React.FC<MainProps> = ({ eventSource, messageCount, messagePosition, messageDisappearTime }) => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [messageTimeouts, setMessageTimeouts] = useState<{ [key: string]: NodeJS.Timeout }>({});
 
     useEffect(() => {
-        const eventSource = new EventSource('http://localhost:9000/events');
+        if (!eventSource) return;
 
-        eventSource.onmessage = (event) => {
+        const handleMessageEvent = (event: MessageEvent) => {
             const msgJson = JSON.parse(event.data);
             const msgContent = msgJson["msg"];
             const msgId = msgJson["msg_id"];
@@ -34,7 +35,17 @@ const Main: React.FC<MainProps> = ({ messageCount, messagePosition, messageDisap
             }, messageDisappearTime);
             setMessageTimeouts(prev => ({ ...prev, [msgId]: timeoutId }));
         };
-    }, [messageDisappearTime]);
+
+        eventSource.addEventListener('message', handleMessageEvent);
+
+        return () => {
+            eventSource.removeEventListener('message', handleMessageEvent);
+
+            Object.values(messageTimeouts).forEach(timeoutId => {
+                clearTimeout(timeoutId);
+            });
+        };
+    }, [eventSource, messageDisappearTime]);
     
     useEffect(() => {
         if (messages.length > messageCount) {
