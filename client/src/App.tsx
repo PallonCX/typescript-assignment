@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Main from './pages/Main';
 import Setting from './pages/Setting';
@@ -37,25 +38,27 @@ const App = () => {
     }
 
     return (
-        <div>
-            <Header isMain={isMain} onToggle={handleTogglePage}/>
-            {isMain 
-                ? <Main 
-                    eventSource={eventSource}
-                    messageCount={messageCount}
-                    messagePosition={messagePosition}
-                    messageDisappearTime={messageDisappearTime}
-                    /> 
-                : <Setting 
-                    messageCount={messageCount} 
-                    onMessageCountChange={handleChangeMessageCount}
-                    messagePosition={messagePosition}
-                    onMessagePositionChange={handleMessagePositionChange}
-                    messageDisappearTime={messageDisappearTime}
-                    onMessageDisappearTimeChange={handleMessageDisappearTimeChange}
-                    />
-            }
-        </div> 
+        <Router>
+            <div>
+                <Header isMain={isMain} onToggle={handleTogglePage}/>
+                <Routes>
+                    <Route path='/' element={<Main 
+                        eventSource={eventSource}
+                        messageCount={messageCount}
+                        messagePosition={messagePosition}
+                        messageDisappearTime={messageDisappearTime}
+                    />} />
+                    <Route path='/setting' element={<Setting 
+                        messageCount={messageCount} 
+                        onMessageCountChange={handleChangeMessageCount}
+                        messagePosition={messagePosition}
+                        onMessagePositionChange={handleMessagePositionChange}
+                        messageDisappearTime={messageDisappearTime}
+                        onMessageDisappearTimeChange={handleMessageDisappearTimeChange}
+                    />} />
+                </Routes>
+            </div>
+        </Router>
     );
 };
 
