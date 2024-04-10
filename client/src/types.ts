@@ -3,3 +3,9 @@ export interface Notification {
   msg: string;
   time: string;
 }
+
+export interface SettingState {
+  messageCount: number;
+  messagePosition: number;
+  messageDisappearTime: number;
+}
