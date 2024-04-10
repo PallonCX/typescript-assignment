@@ -6,7 +6,6 @@ import Setting from './pages/Setting';
 import './App.css';
 
 const App = () => {
-    const [isMain, setIsMain] = useState<boolean>(true);
     const [messageCount, setMessageCount] = useState<number>(5);
     const [messagePosition, setMessagePosition] = useState<number>(1);
     const [messageDisappearTime, setMessageDisappearTime] = useState<number>(5000);
@@ -20,10 +19,6 @@ const App = () => {
             source.close();
         };
     }, []);
-
-    const handleTogglePage = () => {
-        setIsMain(!isMain);
-    }
 
     const handleChangeMessageCount = (count: number) => {
         setMessageCount(count);
@@ -39,7 +34,7 @@ const App = () => {
 
     return (
         <HashRouter>
-            <Header isMain={isMain} onToggle={handleTogglePage}/>
+            <Header />
             <Routes>
                 <Route path='/' element={<Main 
                     eventSource={eventSource}
