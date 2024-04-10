@@ -11,12 +11,11 @@ interface SettingProps {
 }
 
 const Setting: React.FC<SettingProps> = ({ messageCount, onMessageCountChange, messagePosition, onMessagePositionChange, messageDisappearTime, onMessageDisappearTimeChange }) => {
-    const [checkboxes, setCheckboxes] = useState([false, false, false, false]);
+    const [selectedPosition, setSelectedPosition] = useState(messagePosition);
 
     useEffect(() => {
-        const newCheckboxes = checkboxes.map((checkbox, i) => i === messagePosition - 1);
-        setCheckboxes(newCheckboxes);
-    }, [messagePosition])
+        setSelectedPosition(messagePosition);
+    }, [messagePosition]);
 
     const handleCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const count = parseInt(e.target.value, 10);
@@ -27,10 +26,9 @@ const Setting: React.FC<SettingProps> = ({ messageCount, onMessageCountChange, m
         }
     }
 
-    const handleCheckboxChange = (index: number) => {
-        const newCheckboxes = checkboxes.map((checkbox, i) => i === index);
-        setCheckboxes(newCheckboxes);
-        onMessagePositionChange(index + 1);
+    const handlePositionChange = (position: number) => {
+        setSelectedPosition(position);
+        onMessagePositionChange(position);
     };
 
     const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,10 +48,16 @@ const Setting: React.FC<SettingProps> = ({ messageCount, onMessageCountChange, m
             </div>
             <div className="position-block">
                 <span className="description">Notification position</span>
-                {checkboxes.map((checkbox, index) => (
-                    <span className="option">
-                        <span className="short-label">Position {index + 1}</span>
-                        <input type="checkbox" checked={checkbox} onChange={() => handleCheckboxChange(index)}/>
+                {[1, 2, 3, 4].map((position) => (
+                    <span className="option" key={position}>
+                        <span className="short-label">Position {position}</span>
+                        <input 
+                            type="radio" 
+                            name="messagePosition"
+                            value={position} 
+                            checked={selectedPosition === position} 
+                            onClick={() => handlePositionChange(position)}
+                        />
                     </span>
                 ))}
             </div>
