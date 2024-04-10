@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./Header.css";
 
 interface HeaderProps {
@@ -22,8 +23,12 @@ const Header: React.FC<HeaderProps> = ({ isMain , onToggle }) => {
     return (
         <div className="container">
             <span className="title">Notification task</span>
-            <span className={isMain?"chosenButton":"button"} onClick={handleClickMain}>Main</span>
-            <span className={!isMain?"chosenButton":"button"} onClick={handleClickSetting}>Settings</span>
+            <Link to="/">
+                <span className={isMain?"chosenButton":"button"} onClick={handleClickMain}>Main</span>
+            </Link>
+            <Link to="/setting">
+                <span className={!isMain?"chosenButton":"button"} onClick={handleClickSetting}>Settings</span>
+            </Link>
         </div>
     );
 };
