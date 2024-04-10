@@ -1,50 +1,39 @@
 import React, { useState, useEffect } from 'react';
+import { SettingState } from '../types';
 import "./Setting.css";
 
 interface SettingProps {
-    messageCount: number;
-    onMessageCountChange: (count: number) => void;
-    messagePosition: number;
-    onMessagePositionChange: (position: number) => void;
-    messageDisappearTime: number;
-    onMessageDisappearTimeChange: (position: number) => void;
+    settings: SettingState;
+    onChangeSetting: (newSettings: Partial<SettingState>) => void;
 }
 
-const Setting: React.FC<SettingProps> = ({ messageCount, onMessageCountChange, messagePosition, onMessagePositionChange, messageDisappearTime, onMessageDisappearTimeChange }) => {
-    const [selectedPosition, setSelectedPosition] = useState(messagePosition);
+const Setting: React.FC<SettingProps> = ({ settings, onChangeSetting }) => {
+    const [selectedPosition, setSelectedPosition] = useState(settings.messagePosition);
 
     useEffect(() => {
-        setSelectedPosition(messagePosition);
-    }, [messagePosition]);
+        setSelectedPosition(settings.messagePosition);
+    }, [settings.messagePosition]);
 
     const handleCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const count = parseInt(e.target.value, 10);
-        if (!isNaN(count)) {
-            onMessageCountChange(count);
-        } else {
-            onMessageCountChange(0);
-        }
+        onChangeSetting({ messageCount: !isNaN(count) ? count : 0 });
     }
 
     const handlePositionChange = (position: number) => {
         setSelectedPosition(position);
-        onMessagePositionChange(position);
+        onChangeSetting({ messagePosition: position });
     };
 
     const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const count = parseInt(e.target.value, 10);
-        if (!isNaN(count)) {
-            onMessageDisappearTimeChange(count * 1000);
-        } else {
-            onMessageDisappearTimeChange(0);
-        }
+        onChangeSetting({ messageDisappearTime: !isNaN(count) ? count * 1000 : 0 });
     }
 
     return (
         <div>
             <div className="count-block">
                 <span className="description">Notification count</span>
-                <input type="text" className="input" value={messageCount.toString()} onChange={handleCountChange}/>
+                <input type="text" className="input" value={settings.messageCount.toString()} onChange={handleCountChange}/>
             </div>
             <div className="position-block">
                 <span className="description">Notification position</span>
@@ -63,7 +52,7 @@ const Setting: React.FC<SettingProps> = ({ messageCount, onMessageCountChange, m
             </div>
             <div className="time-block">
                 <span className="description">Notification disappear time</span>
-                <input type="text" className="input" value={(messageDisappearTime / 1000).toString()} onChange={handleTimeChange}/>
+                <input type="text" className="input" value={(settings.messageDisappearTime / 1000).toString()} onChange={handleTimeChange}/>
                 <span>sec</span>
             </div>
         </div>

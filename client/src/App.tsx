@@ -3,13 +3,17 @@ import { HashRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Main from './pages/Main';
 import Setting from './pages/Setting';
+import { SettingState } from './types';
 import './App.css';
 
 const App = () => {
-    const [messageCount, setMessageCount] = useState<number>(5);
-    const [messagePosition, setMessagePosition] = useState<number>(1);
-    const [messageDisappearTime, setMessageDisappearTime] = useState<number>(5000);
     const [eventSource, setEventSource] = useState<EventSource | null>(null);
+
+    const [settings, setSettings] = useState<SettingState>({
+        messageCount: 5,
+        messagePosition: 1,
+        messageDisappearTime: 5000
+    });
 
     useEffect(() => {
         const source = new EventSource('http://localhost:9000/events');
@@ -20,16 +24,8 @@ const App = () => {
         };
     }, []);
 
-    const handleChangeMessageCount = (count: number) => {
-        setMessageCount(count);
-    }
-
-    const handleMessagePositionChange = (position: number) => {
-        setMessagePosition(position);
-    }
-
-    const handleMessageDisappearTimeChange = (position: number) => {
-        setMessageDisappearTime(position);
+    const handleChangeSetting = (newSettings: Partial<SettingState>) => {
+        setSettings(prevSettings => ({ ...prevSettings, ...newSettings }));
     }
 
     return (
@@ -38,17 +34,11 @@ const App = () => {
             <Routes>
                 <Route path='/' element={<Main 
                     eventSource={eventSource}
-                    messageCount={messageCount}
-                    messagePosition={messagePosition}
-                    messageDisappearTime={messageDisappearTime}
+                    settings={settings}
                 />} />
                 <Route path='/setting' element={<Setting 
-                    messageCount={messageCount} 
-                    onMessageCountChange={handleChangeMessageCount}
-                    messagePosition={messagePosition}
-                    onMessagePositionChange={handleMessagePositionChange}
-                    messageDisappearTime={messageDisappearTime}
-                    onMessageDisappearTimeChange={handleMessageDisappearTimeChange}
+                    settings={settings}
+                    onChangeSetting={handleChangeSetting}
                 />} />
             </Routes>
         </HashRouter>

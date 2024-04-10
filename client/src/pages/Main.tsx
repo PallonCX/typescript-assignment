@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { SettingState } from '../types';
 import "./Main.css";
 
 interface MainProps {
     eventSource: EventSource | null;
-    messageCount: number;
-    messagePosition: number;
-    messageDisappearTime: number;
+    settings: SettingState;
 }
 
 interface Message {
@@ -13,7 +12,7 @@ interface Message {
     content: string;
 }
 
-const Main: React.FC<MainProps> = ({ eventSource, messageCount, messagePosition, messageDisappearTime }) => {
+const Main: React.FC<MainProps> = ({ eventSource, settings }) => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [messageTimeouts, setMessageTimeouts] = useState<{ [key: string]: NodeJS.Timeout }>({});
 
@@ -32,7 +31,7 @@ const Main: React.FC<MainProps> = ({ eventSource, messageCount, messagePosition,
                     delete updatedTimeouts[msgId];
                     return updatedTimeouts;
                 });
-            }, messageDisappearTime);
+            }, settings.messageDisappearTime);
             setMessageTimeouts(prev => ({ ...prev, [msgId]: timeoutId }));
         };
 
@@ -45,16 +44,16 @@ const Main: React.FC<MainProps> = ({ eventSource, messageCount, messagePosition,
                 clearTimeout(timeoutId);
             });
         };
-    }, [eventSource, messageDisappearTime]);
+    }, [eventSource, settings.messageDisappearTime]);
     
     useEffect(() => {
-        if (messages.length > messageCount) {
-            setMessages(prev => prev.slice(-messageCount));
+        if (messages.length > settings.messageCount) {
+            setMessages(prev => prev.slice(-settings.messageCount));
         }
-        if (messages.length > 9) {
-            setMessages(prev => prev.slice(-9));
+        if (messages.length > 8) {
+            setMessages(prev => prev.slice(-8));
         }
-    }, [messages, messageCount]);
+    }, [messages, settings.messageCount]);
 
     const changeMessagePositionStyle = (position: number) => {
         switch (position) {
@@ -91,12 +90,12 @@ const Main: React.FC<MainProps> = ({ eventSource, messageCount, messagePosition,
                 delete updatedTimeouts[messageId];
                 return updatedTimeouts;
             });
-        }, messageDisappearTime);
+        }, settings.messageDisappearTime);
         setMessageTimeouts(prev => ({ ...prev, [messageId]: timeoutId }));
     };
 
     return (
-        <div className={changeMessagePositionStyle(messagePosition)}>
+        <div className={changeMessagePositionStyle(settings.messagePosition)}>
             {messages.map(({id, content}) => (
                 <div key={id} className="message" onMouseEnter={() => handleMouseEnter(id)} onMouseLeave={() => handleMouseLeave(id)}>
                     <span className="message-content">{content}</span>
