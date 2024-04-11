@@ -6,13 +6,19 @@ const Header: React.FC = () => {
 
     return (
         <div className="container">
-            <span className="title">Notification task</span>
-            <Link to="/">
-                <span className={location.pathname === "/" ? "chosenButton" : "button"}>Main</span>
-            </Link>
-            <Link to="/setting">
-                <span className={location.pathname === "/setting" ? "chosenButton" : "button"}>Settings</span>
-            </Link>
+            <div className="titleAndButtons">
+                <div className="titleAndTabs">
+                    <span className="title">Notification task</span>
+                    <span className="tabs">
+                        <Link to="/" className={location.pathname === "/" ? "chosenTab" : "mainTab"}>
+                            <span className={location.pathname === "/" ? "chosenButton" : "button"} id="mainButton">Main</span>
+                        </Link>
+                        <Link to="/setting" className={location.pathname === "/setting" ? "chosenTab" : "mainTab"}>
+                            <span className={location.pathname === "/setting" ? "chosenButton" : "button"} id="settingButton">Settings</span>
+                        </Link>
+                    </span>
+                </div>
+            </div>
         </div>
     );
 };
