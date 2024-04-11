@@ -1,27 +1,103 @@
 .container {
-    border-bottom: 1px solid #e0e0e0;
-    margin: 15px;
+    height: 72px;
+    padding: 24px 32px 0px 32px;
+    gap: 0px;
+    opacity: 0px;
+}
+
+.titleAndButtons {
+    width: 1,320px;
+    height: 48px;
+    top: 24px;
+    left: 32px;
+    gap: 8px;
+    border: 0px 0px 1px 0px;
+    opacity: 0px;
+
+    border-bottom: 1px solid #FFFFFF1F;
+}
+
+.titleAndTabs {
+    width: 355px;
+    height: 48px;
+    padding: 0px 32px 0px 0px;
+    gap: 40px;
+    opacity: 0px;
+
     display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
 .title {
-    color: #FFFFFFE5;
-    margin-left: 10px;
-    margin-right: 30px;
-    font-size: 22px;
-    font-family: "roboto", sans-serif;
-    line-height: 32px;
+    width: 163px;
+    height: 32px;
+    gap: 0px;
+    opacity: 0px;
 
+    font-family: "roboto", sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 32px;
+    text-align: left;
+
+    color: #FFFFFFE5;
+}
+
+.tabs {
+    width: 120px;
+    height: 48px;
+    gap: 24px;
+    opacity: 0px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chosenTab {
+    height: 48px;
+    border: 0px 0px 2px 0px;
+
+    border-bottom: 2px solid #8DCAFE;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#mainButton {
+    width: 36px;
+    height: 24px;
+    gap: 0px;
+    opacity: 0px;
+
+    font-family: "roboto", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+
+    text-decoration: none;
+}
+
+#settingButton {
+    width: 60px;
+    height: 24px;
+    gap: 0px;
+    opacity: 0px;
+
+    font-family: "roboto", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+
+    text-decoration: none;
 }
 
 .button {
-    margin-left: 10px;
-    margin-right: 10px;
-    color: rgb(189, 188, 188);
-    font-size: 16px;
-    line-height: 32px;
-    font-family: "roboto", sans-serif;
+    color: #FFFFFF99;
 }
 
 .button:hover {
@@ -30,11 +106,5 @@
 }
 
 .chosenButton {
-    margin-left: 10px;
-    margin-right: 10px;
     color: #8DCAFE;
-    font-size: 16px;
-    line-height: 32px;
-    font-family: "roboto", sans-serif;
-    border-bottom: #8DCAFE 3px solid;
 }
