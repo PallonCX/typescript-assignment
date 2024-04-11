@@ -64,6 +64,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    text-decoration: none;
+}
+
+.mainTab {
+    text-decoration: none;
 }
 
 #mainButton {
@@ -77,8 +83,6 @@
     font-weight: 500;
     line-height: 24px;
     text-align: left;
-
-    text-decoration: none;
 }
 
 #settingButton {
@@ -92,8 +96,6 @@
     font-weight: 500;
     line-height: 24px;
     text-align: left;
-
-    text-decoration: none;
 }
 
 .button {
