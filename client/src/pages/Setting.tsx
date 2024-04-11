@@ -31,11 +31,13 @@ const Setting: React.FC<SettingProps> = ({ settings, onChangeSetting }) => {
 
     return (
         <div>
-            <div className="count-block">
+            <div className="block">
                 <span className="description">Notification count</span>
-                <input type="text" className="input" value={settings.messageCount.toString()} onChange={handleCountChange}/>
+                <span className="input-box">
+                    <input type="text" className="input" value={settings.messageCount.toString()} onChange={handleCountChange}/>
+                </span>
             </div>
-            <div className="position-block">
+            <div className="block">
                 <span className="description">Notification position</span>
                 {[1, 2, 3, 4].map((position) => (
                     <span className="option" key={position}>
@@ -50,10 +52,12 @@ const Setting: React.FC<SettingProps> = ({ settings, onChangeSetting }) => {
                     </span>
                 ))}
             </div>
-            <div className="time-block">
+            <div className="block">
                 <span className="description">Notification disappear time</span>
-                <input type="text" className="input" value={(settings.messageDisappearTime / 1000).toString()} onChange={handleTimeChange}/>
-                <span>sec</span>
+                <span className="input-box">
+                    <input type="text" className="input" value={(settings.messageDisappearTime / 1000).toString()} onChange={handleTimeChange}/>
+                    <span id="sec">sec</span>
+                </span>
             </div>
         </div>
     );
