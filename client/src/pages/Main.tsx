@@ -98,8 +98,10 @@ const Main: React.FC<MainProps> = ({ eventSource, settings }) => {
         <div className={changeMessagePositionStyle(settings.messagePosition)}>
             {messages.map(({id, content}) => (
                 <div key={id} className="message" onMouseEnter={() => handleMouseEnter(id)} onMouseLeave={() => handleMouseLeave(id)}>
-                    <span className="message-content">{content}</span>
-                    <span className="remove-icon" onClick={() => removeMessage(id)}>❌</span>
+                    <span className="message-main">
+                        <span className="message-content">{content}</span>
+                        <span className="remove-icon" onClick={() => removeMessage(id)}>&#10005;</span>
+                    </span>
                 </div>
             ))}
         </div>

@@ -1,14 +1,17 @@
 .message-container-1 {
+    position: fixed;
+    left: 40px;
     flex-direction: column;
 }
 
 .message-container-2 {
     position: fixed;
-    right: 20px;
+    right: 40px;
     flex-direction: column;
 }
 
 .message-container-3 {
+    left: 40px;
     position: fixed;
     flex-direction: column-reverse;
     bottom: 20px;
@@ -16,25 +19,34 @@
 
 .message-container-4 {
     position: fixed;
-    right: 20px;
+    right: 40px;
     flex-direction: column-reverse;
     bottom: 20px;
 }
 
 .message {
+    height: 64px;
+    width: 360px;
+    border-radius: 16px;
+    margin-bottom: 8px;
+
     background-color: #2C313E66;
+}
+
+.message-main {
+    width: 328px;
+    height: 32px;
+    gap: 8px;
+    opacity: 0px;
+
+    display: flex;
+    align-items: center;
+
     color: white;
     font-family: 'Roboto', sans-serif;
     font-size: 13px;
     line-height: 16px;
-    height: 64px;
-    width: 360px;
-    border-radius: 10px;
-    margin-bottom: 3px;
-    padding: 10px;
-    margin-left: 16px;
-    display: flex;
-    align-items: center;
+    padding: 16px;
 }
 
 .message:hover {
@@ -49,5 +61,7 @@
     flex: 1;
     text-align: center;
     cursor: pointer;
+    font-size: 14.06px;
+    color: #FFFFFF99;
 }
 
